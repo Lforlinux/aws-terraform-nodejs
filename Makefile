@@ -29,3 +29,8 @@ apply-auto-approve:
 .PHONY: destroy
 destroy:
 	@$(EXEC) destroy -no-color
+
+.PHONY: deploy
+deploy:
+	@$(EXEC) init -no-color
+	@$(EXEC) apply -no-color
