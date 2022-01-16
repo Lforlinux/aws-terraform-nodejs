@@ -7,11 +7,11 @@
 - NodeJS service has been converted as a microservice to fit Kubernets artchitecture
 - Terraform has been converted as docker container microservice for better collabration by using the same version of terraform across the team.
 - Makefile has been used in this project for automation and provsion the entire stack with a single command. 
-- Load and perfomance testing tool called locust conveted as a docker container for ease of use. 
+- Load and perfomance testing tool called locust has been converted as a docker container for ease of use. 
 
 ## Prerequisite
 - AWS account access
-- AWS iam programmic user access with the follwing policy attached to the user
+- AWS iam programmatic user access with the follwing policy attached to the user
 - AmazonEC2FullAccess,IAMFullAccess,AutoScalingFullAccess,AmazonEKSClusterPolicy,     ￼
 - AmazonEKSWorkerNodePolicy,AmazonVPCFullAccess,AmazonEKSServicePolicy,AmazonEKS_CNI_Policy
 
@@ -46,6 +46,11 @@ make deploy
 - ```aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)```
 - Above command will set the context to use the kubectl. 
 - Now ALB url will be avilable by ```kubectl get svc``` or go the AWS ALB console and copy and use it on any browser. 
+```
+[ec2-user@ip-172-31-83-136 aws-terraform-nodejs]$ kubectl get svc
+NAME                              TYPE           CLUSTER-IP     EXTERNAL-IP                                                              PORT(S)        AGE
+nodejsapplication-helm-nodejs     LoadBalancer   172.20.83.16   a0a551a21584c449a961842a873b38c6-718686509.us-east-1.elb.amazonaws.com   80:31924/TCP   18m
+```
 - The port 80 for the NodeJS application is open on the internet.  
 
 ## How fault tolerance with high availability acheived
