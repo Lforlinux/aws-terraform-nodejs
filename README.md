@@ -73,14 +73,15 @@ nodejsapplication-helm-nodejs     LoadBalancer   172.20.83.16   a0a551a21584c449
 - Monitor the pods counts and HPA as per the load the pods count will be increased via hpa component. 
 
 
-## Application lifecycle Management. 
+## Application lifecycle Management with zero downtime. 
 
 - Make sure to do the code change for the Nodejs app given on this same directory. 
 - Do docker build and push it to the Docker registry
 - Once we have the latest image avilable create a branch from this repositary
 - append new image tag on the NodeJS helm chart values.yaml file. 
 - Creat a PR
-- Apply the change by running terraform ```make deploy``` 
+- Apply the change by running terraform ```make deploy```
+- Deployment will be performed by Helm. The K8s deployment will take care of rolling update on the pods to acheive zero downtime.  
 
 ## Enhancement 
 - The whole orchestration can be performed via Jenkins as a scripted/Declatrative pipeline
