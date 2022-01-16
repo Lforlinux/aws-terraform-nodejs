@@ -48,7 +48,10 @@ make deploy
 - Now ALB url will be avilable by ```kubectl get svc``` or go the AWS ALB console and copy and use it on any browser. 
 - The port 80 for the NodeJS application is open on the internet.  
 
-
+## How fault tolerance with high availability acheived
+- K8s resource are deployed as a deployment and mapped to Horizontal Pod Autoscaler.
+- HPA will look after the pods memory and cpu utilization and it will increase the pods count and decrease the pod count if the load pressure coming under control.  
+- K8s worker nodes are deployed are AWS Auto Scalling Group.   
 
 ## Performance Testing / Load Testing.  
 - use the following command to do perfomance / load testing. 
@@ -61,15 +64,20 @@ make deploy
 ```
 
 - open your local browser and use localhost:8089 (The IP varies Depends on where you are running the above docker command)
-
 - Give the user and load iteration above 1000 concurrent users to generate the load. 
+- Monitor the pods counts and HPA as per the load the pods count will be increased via hpa component. 
 
 
 ## Application lifecycle Management. 
 
 - Make sure to do the code change for the Nodejs app given on this same directory. 
 - Do docker build and push it to the Docker registry
-- Once we have the latest image avilable make a branch from this repositary
+- Once we have the latest image avilable create a branch from this repositary
 - append new image tag on the NodeJS helm chart values.yaml file. 
 - Creat a PR
 - Apply the change by running terraform ```make deploy``` 
+
+## Enhancement 
+- The whole orchestration can be performed via Jenkins as a scripted/Declatrative pipeline
+- Helm chart can be packaged and placed in a seperate registry which will give more leverage for our App lifecycle management. 
+- GitOps model can be implemented as via the branch build and PR's terraform can be posted on the PR itself via GitHook from Jenkins slave to Git PR. Once approved promotion and apply part can be done via the pipeline. 
