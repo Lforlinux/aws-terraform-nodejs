@@ -1,13 +1,12 @@
 -include .env
-DOCKER_IMAGE ?= lforlinux/terraform:0.14.5
-ROOT_DIR := /data
-EXEC = docker run --rm -i $(pwd):/data $(DOCKER_IMAGE)
+DOCKER_IMAGE ?= hashicorp/terraform:1.6
 ROOT_DIR := /data
 EXEC = docker run --rm -i \
 					-e AWS_PROFILE=$(AWS_PROFILE) \
 					-e KUBECONFIG=${ROOT_DIR}/kubeconfig.yaml \
 					-v $(HOME)/.aws:/root/.aws \
 					-v $(PWD):/data \
+					-w /data \
 					$(DOCKER_IMAGE)
 
 .PHONY: init

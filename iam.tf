@@ -15,16 +15,16 @@ resource "aws_iam_role" "admin_role" {
   })
 
   tags = {
-    tag-key = "tag-value"
+    Name = "admin-role"
   }
 }
 
-
 locals {
-map_roles = [{
-rolearn= aws_iam_role.admin_role.arn
-username= "system:node:{{EC2PrivateDNSName}}"
-groups= ["cluster-admin" ]
-}
-]
+  map_roles = [
+    {
+      rolearn  = aws_iam_role.admin_role.arn
+      username = "system:node:{{EC2PrivateDNSName}}"
+      groups   = ["cluster-admin"]
+    }
+  ]
 }
