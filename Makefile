@@ -20,10 +20,16 @@ plan:
 .PHONY: apply
 apply:
 	@$(EXEC)  apply -no-color
+	@echo ""
+	@echo "To access the Kubernetes cluster, run:"
+	@echo "aws eks --region $$($(EXEC) output -raw region) update-kubeconfig --name $$($(EXEC) output -raw cluster_name)"
 
 .PHONY: apply-auto-approve
 apply-auto-approve:
 	@$(EXEC)  apply -auto-approve
+	@echo ""
+	@echo "To access the Kubernetes cluster, run:"
+	@echo "aws eks --region $$($(EXEC) output -raw region) update-kubeconfig --name $$($(EXEC) output -raw cluster_name)"
 
 .PHONY: destroy
 destroy:
@@ -33,3 +39,6 @@ destroy:
 deploy:
 	@$(EXEC) init -no-color
 	@$(EXEC) apply -no-color
+	@echo ""
+	@echo "To access the Kubernetes cluster, run:"
+	@echo "aws eks --region $$($(EXEC) output -raw region) update-kubeconfig --name $$($(EXEC) output -raw cluster_name)"
