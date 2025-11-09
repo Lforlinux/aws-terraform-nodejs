@@ -23,6 +23,11 @@ apply:
 	@echo ""
 	@echo "To access the Kubernetes cluster, run:"
 	@echo "aws eks --region $$($(EXEC) output -raw region) update-kubeconfig --name $$($(EXEC) output -raw cluster_name)"
+	@echo ""
+	@echo "=== ArgoCD Access Information ==="
+	@echo "ArgoCD Server URL: $$($(EXEC) output -raw argocd_server_url)"
+	@echo "ArgoCD Username: $$($(EXEC) output -raw argocd_username)"
+	@echo "ArgoCD Password: $$($(EXEC) output -raw argocd_password)"
 
 .PHONY: apply-auto-approve
 apply-auto-approve:
@@ -30,6 +35,11 @@ apply-auto-approve:
 	@echo ""
 	@echo "To access the Kubernetes cluster, run:"
 	@echo "aws eks --region $$($(EXEC) output -raw region) update-kubeconfig --name $$($(EXEC) output -raw cluster_name)"
+	@echo ""
+	@echo "=== ArgoCD Access Information ==="
+	@echo "ArgoCD Server URL: $$($(EXEC) output -raw argocd_server_url)"
+	@echo "ArgoCD Username: $$($(EXEC) output -raw argocd_username)"
+	@echo "ArgoCD Password: $$($(EXEC) output -raw argocd_password)"
 
 .PHONY: destroy
 destroy:
@@ -42,3 +52,8 @@ deploy:
 	@echo ""
 	@echo "To access the Kubernetes cluster, run:"
 	@echo "aws eks --region $$($(EXEC) output -raw region) update-kubeconfig --name $$($(EXEC) output -raw cluster_name)"
+	@echo ""
+	@echo "=== ArgoCD Access Information ==="
+	@echo "ArgoCD Server URL: $$($(EXEC) output -raw argocd_server_url)"
+	@echo "ArgoCD Username: $$($(EXEC) output -raw argocd_username)"
+	@echo "ArgoCD Password: $$($(EXEC) output -raw argocd_password)"

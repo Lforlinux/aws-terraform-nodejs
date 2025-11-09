@@ -32,3 +32,21 @@ output "cluster_name" {
   description = "Kubernetes Cluster Name"
   value       = local.cluster_name
 }
+
+output "argocd_server_url" {
+  description = "ArgoCD Server URL (LoadBalancer endpoint)"
+  value       = try("https://${data.kubernetes_service.argocd_server.status[0].load_balancer[0].ingress[0].hostname}", try("https://${data.kubernetes_service.argocd_server.status[0].load_balancer[0].ingress[0].ip}", "Pending... Check with: kubectl get svc -n argocd argocd-server"))
+  depends_on  = [helm_release.argocd, data.kubernetes_service.argocd_server]
+}
+
+output "argocd_username" {
+  description = "ArgoCD admin username"
+  value       = "admin"
+}
+
+output "argocd_password" {
+  description = "ArgoCD admin password (from Kubernetes secret)"
+  value       = try(base64decode(data.kubernetes_secret.argocd_admin_password.data["password"]), "Secret not found. Run: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d")
+  sensitive   = true
+  depends_on  = [helm_release.argocd, data.kubernetes_secret.argocd_admin_password]
+}
