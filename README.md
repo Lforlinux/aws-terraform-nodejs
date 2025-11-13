@@ -16,7 +16,12 @@ This project provides a production-ready AWS EKS cluster with:
 
 ![Architecture Diagram](architecture.png)
 
-## Prerequisites
+## Workflow
+
+![EKS Cluster Provisioning and GitOps Workflow](eks-gitops.png)
+
+<details>
+<summary><b>Prerequisites</b></summary>
 
 ### AWS Account Setup
 - AWS account with programmatic access
@@ -34,6 +39,11 @@ This project provides a production-ready AWS EKS cluster with:
 - Docker installed and running
 - AWS CLI configured with credentials (`~/.aws/credentials` or `AWS_PROFILE` environment variable)
 - Git
+
+</details>
+
+<details>
+<summary><b>Quick Start</b></summary>
 
 ## Quick Start
 
@@ -67,6 +77,11 @@ Review the Terraform plan and type `yes` to proceed. The deployment includes:
 After deployment, the following information will be displayed:
 - Kubernetes cluster access command
 - ArgoCD server URL, username, and password
+
+</details>
+
+<details>
+<summary><b>Accessing the Cluster</b></summary>
 
 ## Accessing the Cluster
 
@@ -124,7 +139,11 @@ ArgoCD is deployed with a LoadBalancer service. Access information is displayed 
 
 #### App-of-Apps Pattern
 
-The infrastructure includes an app-of-apps configuration (`argocd/app-of-apps.yaml`) that automatically deploys a comprehensive platform toolkit from the [k8s-platform-toolkit](https://github.com/Lforlinux/k8s-platform-toolkit.git) repository. The following applications are automatically deployed:
+The infrastructure includes an app-of-apps configuration (`argocd/app-of-apps.yaml`) that automatically deploys a comprehensive platform toolkit from the [k8s-platform-toolkit](https://github.com/Lforlinux/k8s-platform-toolkit.git) repository. 
+
+**k8s-platform-toolkit** is the main platform toolkit application (parent app-of-apps) that manages all other applications. For detailed information about all applications, their configurations, and usage, please refer to the [k8s-platform-toolkit repository](https://github.com/Lforlinux/k8s-platform-toolkit.git).
+
+The following applications are automatically deployed:
 
 - **k8s-platform-toolkit**: Main platform toolkit application (parent app-of-apps)
 - **monitoring-stack**: Prometheus and Grafana for metrics and monitoring
@@ -141,6 +160,11 @@ To view all deployed applications and their status:
 kubectl get applications -n argocd
 ```
 
+</details>
+
+<details>
+<summary><b>High Availability & Fault Tolerance</b></summary>
+
 ## High Availability & Fault Tolerance
 
 ### Horizontal Pod Autoscaler (HPA)
@@ -153,6 +177,11 @@ kubectl get applications -n argocd
 - EKS worker nodes are deployed in AWS Auto Scaling Groups
 - Automatically scales nodes based on cluster demand
 - Ensures sufficient capacity for pod scheduling
+
+</details>
+
+<details>
+<summary><b>Performance Testing</b></summary>
 
 ## Performance Testing
 
@@ -182,6 +211,11 @@ docker run -i --rm \
    kubectl get hpa
    kubectl get pods -w
    ```
+
+</details>
+
+<details>
+<summary><b>Application Lifecycle Management</b></summary>
 
 ## Application Lifecycle Management
 
@@ -213,20 +247,10 @@ For GitOps-based deployments:
 3. Rolling updates handled by Kubernetes
 4. Monitor deployment status in ArgoCD UI
 
-## Makefile Commands
+</details>
 
-| Command | Description |
-|---------|-------------|
-| `make init` | Initialize Terraform |
-| `make plan` | Preview infrastructure changes |
-| `make apply` | Apply infrastructure changes |
-| `make apply-auto-approve` | Apply without confirmation |
-| `make deploy` | Initialize and apply (recommended) |
-| `make destroy` | Destroy all infrastructure |
-
-## Workflow
-
-![EKS Cluster Provisioning and GitOps Workflow](eks-gitops.png)
+<details>
+<summary><b>Project Structure</b></summary>
 
 ## Project Structure
 
@@ -242,9 +266,18 @@ For GitOps-based deployments:
 └── README.md              # Project documentation
 ```
 
+</details>
+
+<details>
+<summary><b>Platform Toolkit (via ArgoCD)</b></summary>
+
 ## Platform Toolkit (via ArgoCD)
 
-The app-of-apps pattern automatically deploys additional platform services from the k8s-platform-toolkit repository. After ArgoCD is deployed, the following applications are automatically synced:
+The app-of-apps pattern automatically deploys additional platform services from the [k8s-platform-toolkit](https://github.com/Lforlinux/k8s-platform-toolkit.git) repository. **k8s-platform-toolkit** is the main platform toolkit application (parent app-of-apps) that orchestrates all other applications.
+
+> **📚 For detailed information about all applications, configurations, and usage, please refer to the [k8s-platform-toolkit repository](https://github.com/Lforlinux/k8s-platform-toolkit.git).**
+
+After ArgoCD is deployed, the following applications are automatically synced:
 
 | Application | Description | Status |
 |------------|-------------|--------|
@@ -274,6 +307,11 @@ sanity-test            Synced        Progressing
 ```
 
 Access the ArgoCD UI to monitor and manage all platform applications, view detailed sync status, and troubleshoot any issues.
+
+</details>
+
+<details>
+<summary><b>Troubleshooting</b></summary>
 
 ## Troubleshooting
 
@@ -307,6 +345,11 @@ kubectl get pods
 kubectl logs <pod-name>
 ```
 
+</details>
+
+<details>
+<summary><b>Security Notes</b></summary>
+
 ## Security Notes
 
 - Ensure IAM policies follow least privilege principles
@@ -314,3 +357,5 @@ kubectl logs <pod-name>
 - Use AWS Secrets Manager for sensitive data
 - Enable VPC flow logs for network monitoring
 - Regularly update container images and dependencies
+
+</details>
