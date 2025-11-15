@@ -2,6 +2,14 @@
 
 Complete Kubernetes infrastructure provisioning on AWS using Terraform, with automated deployment, GitOps capabilities, and high availability.
 
+## 🔗 Repository Dependency
+
+**This repository depends on [k8s-platform-toolkit](https://github.com/Lforlinux/k8s-platform-toolkit.git)** for all application deployments.
+
+The infrastructure repository deploys the EKS cluster and ArgoCD, which then automatically references the [k8s-platform-toolkit repository](https://github.com/Lforlinux/k8s-platform-toolkit.git) through the app-of-apps pattern. All platform applications (monitoring, logging, microservices, testing tools) are defined and managed in the k8s-platform-toolkit repository.
+
+> **📚 For detailed information about all applications, their configurations, and usage, see [k8s-platform-toolkit.md](k8s-platform-toolkit.md) or visit the [k8s-platform-toolkit repository](https://github.com/Lforlinux/k8s-platform-toolkit.git).**
+
 ## Overview
 
 This project provides a production-ready AWS EKS cluster with:
