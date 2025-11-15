@@ -219,33 +219,40 @@ docker run -i --rm \
 
 ## Application Lifecycle Management
 
-### Zero-Downtime Deployments
+### GitOps Workflow with ArgoCD
 
-The infrastructure supports zero-downtime deployments through Kubernetes rolling updates:
+The infrastructure uses **GitOps principles** with ArgoCD's app-of-apps pattern for automated application lifecycle management. All applications are automatically kept in sync with the [k8s-platform-toolkit repository](https://github.com/Lforlinux/k8s-platform-toolkit.git).
 
-1. **Update Application Code**
-   - Make changes to the NodeJS application in `Nodejs-Docker/`
-   - Build and push Docker image to your registry
+#### How It Works
 
-2. **Update Helm Chart**
-   - Create a feature branch
-   - Update image tag in `charts/helm-nodejs-app/values.yaml`
-   - Create a Pull Request
+1. **Make Changes in Git Repository**
+   - Update application code, configurations, or manifests in the [k8s-platform-toolkit repository](https://github.com/Lforlinux/k8s-platform-toolkit.git)
+   - Commit and push changes to the repository
 
-3. **Deploy Changes**
-   ```bash
-   make deploy
-   ```
-   - Helm performs rolling updates
-   - Kubernetes ensures zero downtime during deployment
+2. **Automatic Sync by ArgoCD**
+   - ArgoCD continuously monitors the k8s-platform-toolkit repository
+   - When changes are detected, ArgoCD automatically syncs them to the Kubernetes cluster
+   - The app-of-apps pattern ensures all child applications are updated accordingly
 
-### GitOps Workflow (ArgoCD)
+3. **Zero-Downtime Deployments**
+   - Kubernetes performs rolling updates automatically
+   - Old pods are gracefully terminated only after new pods are healthy
+   - No service interruption during deployments
 
-For GitOps-based deployments:
-1. Push application manifests to Git repository
-2. ArgoCD automatically syncs changes
-3. Rolling updates handled by Kubernetes
-4. Monitor deployment status in ArgoCD UI
+4. **Monitor Deployment Status**
+   - View real-time sync status in the ArgoCD UI
+   - Track deployment progress and health of all applications
+   - Automatic self-healing if any drift is detected
+
+#### Benefits
+
+- **Automated Deployments**: No manual `kubectl apply` or `make deploy` needed
+- **Git as Source of Truth**: All changes are version-controlled and auditable
+- **Consistent State**: Cluster always matches the Git repository state
+- **Self-Healing**: ArgoCD automatically corrects any manual changes or drift
+- **Rollback Capability**: Easy rollback by reverting Git commits
+
+> **Note**: The app-of-apps configuration uses automated sync with self-healing enabled, ensuring the Kubernetes cluster applications are always synchronized with the [k8s-platform-toolkit repository](https://github.com/Lforlinux/k8s-platform-toolkit.git).
 
 </details>
 
